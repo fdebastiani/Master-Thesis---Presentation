@@ -1,8 +1,8 @@
-\documentclass[10pt]{beamer}
+\documentclass[10pt,unknownkeysallowed]{beamer}
 
 \usetheme[progressbar=frametitle]{metropolis}
 \usepackage{appendixnumberbeamer}
-
+\usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
 
@@ -43,28 +43,53 @@
 \end{figure}
 \end{frame}
 
+\begin{frame}{Simulation based on Boston Housing \textit{data}}
 
-\begin{frame}{Simulation based on BostonHousing}
+Hedonic pricing data of Harrison and Rubinfeld (1978), in its corrected version (Gilley and Pace, 1996). In this article, the authors analyzed the demand for clean air through a hedonic price model for residences in Boston.
 
+The variables are:
+\begin{itemize}
+    \item \texttt{PRICE}: logarithm of the median corrected value of household values in USD 1000's;
+    \item \texttt{CRIM}: crime per capita in the town;
+    \item \texttt{AGE}: the units occupied by the owners, proportionally, which were built before the year 1940;
+    \item \texttt{NOX}: nitrogen oxides concentration;
+    \item \texttt{RM}: average number of rooms per dwelling;
+    \item  \texttt{ZN}: proportion of residential land zoned for lots over 25,000;
+    \item  \texttt{INDUS}: proportion of non-retail business acres per town;
+    \item \texttt{PTRATIO}: pupil-teacher ratio by town; 
+    \item \texttt{RAD}: index of accessibility to radial highways;
+    \item \texttt{TAX}: full-value property-tax rate per 10,000;
+    \end{itemize}
+    \end{frame}
+    
+    \begin{frame}{Simulation based on Boston Housing \textit{data}}
+    \begin{itemize}
+        \item \texttt{B}: $1000*(\textrm{Bk} - 0.63)^2$, where Bk is the proportion of blacks by town;
+   \item \texttt{LSTAT}: lower status of the population;
+   \item \texttt{DIS}:weighted mean of distances to five Boston employment centres 
+    \end{itemize}
 \end{frame}
+
+\begin{frame}{ Design Experiment}
+The simulation study based on real \textit{data} was performed as follows:
+\begin{enumerate}
+   \item Compute cholesky decomposition for a square matrix $\mat{\Sigma}$ of order $n$ such that $\mat{\Sigma}= \textbf{\textrm{L}}\textbf{\textrm{L}}^\top$ of the spatial structure present in the  \textit{data};
+    \item  For each of the 1000 replicates of Monte Carlo a vector $\underline{\mat{\varepsilon}}$ of length $n$ is generated from uncorrelated normal random variables; and
+    \item  Compute response variable $\underline{\mathbf{y}}$ with spatial dependency for each replicate by doing $\underline{\mat{y}}= \mat{\mu} + \textbf{\textrm{L}}\mat{\varepsilon}$, where $\mat{\mu} = \beta_0+ \beta_1\texttt{RM} + \beta_2\texttt{RAD}$, and $\textrm{Y}\sim \textrm{ Sinh-Arcsinh}(\mu,\sigma=1,\nu=0.5)$. The true values for $\underline{\beta}$ are
+    $\underline{\beta}=(\beta_0,\beta_1,\beta2)=(1,0.5,0.5)$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Results from simulation based on Boston Housing \textit{data}}
+Figure \ref{fig:BostonBox} shows boxplots for estimates of parameters of regression.
+\center\includegraphics[width=4cm,height=5cm]{Betas_Boston_boxplot.pdf}\label{fig:BostonBox}
+\end{frame}
+
 \section{Applications}
 
 
+
 \section{Conclusion}
-
-\begin{frame}{Summary}
-
-  Get the source of this theme and the demo presentation from
-
-  \begin{center}\url{github.com/matze/mtheme}\end{center}
-
-  The theme \emph{itself} is licensed under a
-  \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons
-  Attribution-ShareAlike 4.0 International License}.
-
-  \begin{center}\ccbysa\end{center}
-
-\end{frame}
 
 {\setbeamercolor{palette primary}{fg=black, bg=yellow}
 \begin{frame}[standout]
@@ -72,18 +97,6 @@
 \end{frame}
 }
 
-\appendix
-
-\begin{frame}[fragile]{Backup slides}
-  Sometimes, it is useful to add slides at the end of your presentation to
-  refer to during audience questions.
-
-  The best way to do this is to include the \verb|appendixnumberbeamer|
-  package in your preamble and call \verb|\appendix| before your backup slides.
-
-  \themename will automatically turn off slide numbering and progress bars for
-  slides in the appendix.
-\end{frame}
 
 \begin{frame}[allowframebreaks]{References}
 
